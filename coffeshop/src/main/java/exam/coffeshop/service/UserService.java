@@ -67,9 +67,8 @@ public class UserService {
             String encodedPassword = userToLogin.get().getPassword();
 
             if (passwordEncoder.matches(rawPassword, encodedPassword)) {
-                loggedUser.builder()
-                        .id(userToLogin.get().getId())
-                        .username(userToLogin.get().getUsername());
+                loggedUser.setId(userToLogin.get().getId());
+                loggedUser.setUsername(userToLogin.get().getUsername());
                 return true;
             }
          }

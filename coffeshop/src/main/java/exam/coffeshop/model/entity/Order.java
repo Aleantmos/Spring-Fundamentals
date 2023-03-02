@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -26,7 +27,7 @@ public class Order extends BaseEntity {
     private BigDecimal price;
 
     @Column(nullable = false)
-    private LocalDate orderTime;
+    private LocalDateTime orderTime;
 
     @ManyToOne
     private Category category;

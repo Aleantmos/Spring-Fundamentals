@@ -18,7 +18,7 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
 
-
+        <th:block th:unless="${@loggedUser.isLogged()}">
         <li class="nav-item active">
           <a class="nav-link" href="/">Home</a>
         </li>
@@ -30,15 +30,21 @@
         <li class="nav-item">
           <a class="nav-link" href="/users/register">Register</a>
         </li>
+        </th:block>
 
-        <li class="nav-item">
-          <a class="nav-link" href="/">Add Order</a>
+        <th:block th:if="${@loggedUser.isLogged()}">
+        <li class="nav-item active">
+          <a class="nav-link" href="/home">Home</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="/">Logout</a>
+          <a class="nav-link" href="/orders/add-order">Add Order</a>
         </li>
 
+        <li class="nav-item">
+          <a class="nav-link" href="/users/logout">Logout</a>
+        </li>
+        </th:block>
 
       </ul>
       <img width="50px" src="/images/coffee.png" alt="Coffee image">

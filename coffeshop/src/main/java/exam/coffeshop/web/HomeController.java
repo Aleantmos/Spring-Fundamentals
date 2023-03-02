@@ -28,6 +28,8 @@ public class HomeController {
         if (!loggedUser.isLogged()) {
             return "redirect:/";
         }
+
+
         return "home";
     }
 }
