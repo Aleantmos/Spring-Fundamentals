@@ -2,6 +2,7 @@ package exam.coffeshop.web;
 
 import exam.coffeshop.model.dtos.LoginDTO;
 import exam.coffeshop.model.dtos.RegisterDTO;
+import exam.coffeshop.model.helper.LoggedUser;
 import exam.coffeshop.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserController {
 
     private final UserService userService;
+    private final LoggedUser loggedUser;
 
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, LoggedUser loggedUser) {
         this.userService = userService;
+        this.loggedUser = loggedUser;
     }
 
 
@@ -78,6 +81,14 @@ public class UserController {
 
         return "redirect:/home";
     }
+
+    @GetMapping("/logout")
+    public String logoutUser() {
+        loggedUser.setId(null);
+        loggedUser.setUsername(null);
+        return "redirect:/";
+    }
+
     @ModelAttribute
     public RegisterDTO registerDTO() {
         return new RegisterDTO();
