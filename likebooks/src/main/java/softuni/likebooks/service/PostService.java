@@ -11,6 +11,8 @@ import softuni.likebooks.model.helper.LoggedUser;
 import softuni.likebooks.repository.PostRepository;
 
 import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class PostService {
@@ -44,5 +46,30 @@ public class PostService {
         postToSave.setUsersLikes(new HashSet<>());
 
         postRepository.save(postToSave);
+    }
+
+    public Set<Post> getPostsWithCreator(Long id) {
+        return postRepository.findByCreator_Id(id);
+    }
+
+    public void removePostById(Long id) {
+        postRepository.deleteById(id);
+    }
+
+    public Set<Post> getPostsWithCreatorNot(Long id) {
+        Set<Post> othersPosts = postRepository.findByCreator_IdNot(id);
+
+        return othersPosts;
+    }
+
+    public void addLiker(Long id, Long loggedUserId) {
+        Post postToLike = postRepository.findById(id).orElse(null);
+        User loggedUser = userService.getUserById(loggedUserId);
+
+        if (postToLike != null) {
+            postToLike.getUsersLikes().add(loggedUser);
+        }
+
+
     }
 }

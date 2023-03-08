@@ -9,35 +9,37 @@
         <div class="row mt-1 mb-2">
             <div class="col-6 mt-1 mb-1">
                 <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">My Posts</h3>
-                <h6 class="mySticky bg-gray text-dark  mb-0 mt-0">Username: {username}</h6>
+                <h6 th:text="|Username: ${@loggedUser.username}|" class="mySticky bg-gray text-dark  mb-0 mt-0">Username: {username}</h6>
                 <div class="bg-dark rounded m-auto" style="height: 68.5vh; overflow: auto">
                     <table class="table table-striped table-dark">
-                        <tr>
+                        <tr th:each="post : ${myPosts}">
                             <td class="bg-info" scope="row" style="width: 5%">
                                 <img class="mr-2 " src="/img/post-bubble.png" alt="PostBubble" width="30px" height="30px">
                             </td>
-                            <td style="width: 5%" class="bg-info">{mood}</td>
-                            <td class="bg-primary" style="width: 15%">{numberOfLikes) likes</td>
-                            <td >{content}</td>
-                            <td style="width: 15%"><a class="btn-danger btn" href="/">Remove</a></td>
+                            <td th:text="${post.getMood().getMoodName().name()}" style="width: 5%" class="bg-info">{mood}</td>
+                            <td th:text="|${post.getUsersLikes().size()} likes|" class="bg-primary" style="width: 15%">{numberOfLikes} likes</td>
+                            <td th:text="${post.getContent()}">{content}</td>
+                            <td style="width: 15%"><a class="btn-danger btn" th:href="@{/posts/remove/{id}(id = *{post.getId()})}">Remove</a></td>
                         </tr>
                     </table>
                 </div>
+
             </div>
 
             <div class="col-6 mt-1 mb-1">
                 <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">All Other Posts</h3>
-                <h6 class="mySticky bg-gray text-dark  mb-0 mt-0">{otherUsersPostsTotalCount} total posts</h6>
+                <h6 th:text="|${othersPosts.size()} total posts|" class="mySticky bg-gray text-dark  mb-0 mt-0">{otherUsersPostsTotalCount} total posts</h6>
                 <div class="bg-dark rounded m-auto" style="height: 68.5vh; overflow: auto">
-                    <th:block>
+                    <th:block th:each="post : ${othersPosts}">
                         <br>
                         <ul class="list-group list-group-horizontal text-dark">
                             <li class="list-group-item">
                                 <table>
                                     <tr>
-                                        <td style="width: 15%"><a> {username}: </a></td>
+                                        <td style="width: 15%">
+                                            <a th:text="|${post.getCreator().getUsername()}:|" >{username}: </a></td>
                                         <td>
-                                            <a>{content}</a>
+                                            <a th:text="${post.getContent()}">{content}</a>
                                         </td>
                                     </tr>
                                 </table>
@@ -45,9 +47,10 @@
                             <li class="list-group-item bg-gray">
                                 <table>
                                     <tr>
-                                        <td style="width: 10%">Mood: {mood}</td>
-                                        <td class="text-primary">{numberOfLikes} likes</td>
-                                        <td><a class="ml-3 text-danger" href="/"><img src="/img/like.png" width="43px" height="40px"></a></td>
+                                        <td th:text="|Mood: ${post.getMood().getMoodName().name()}|" style="width: 10%">Mood: {mood}</td>
+                                        <td th:text="|${post.getUsersLikes().size()} likes|" class="text-primary">{numberOfLikes} likes</td>
+                                        <td><a class="ml-3 text-danger" th:href="@{/posts/like-post/{id}(id = *{post.getId()})}">
+                                            <img src="/img/like.png" width="43px" height="40px"></a></td>
                                     </tr>
                                 </table>
                             </li>
