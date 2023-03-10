@@ -1,29 +1,27 @@
-package softuni.likebooks.model.entity;
+package softuni.likebooks.model.dtos;
 
-import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import softuni.likebooks.model.entity.Mood;
+import softuni.likebooks.model.entity.User;
 
 import java.util.Set;
-
 @Getter
 @Setter
 @NoArgsConstructor
+public class PostDTO {
 
-@Entity
-@Table(name = "posts")
-public class Post extends BaseEntity {
 
-    @Column(nullable = false)
+    private Long id;
+
     private String content;
 
-    @ManyToOne
     private User creator;
 
-    @OneToMany(fetch = FetchType.EAGER)
     private Set<User> usersLikes;
 
-    @ManyToOne
     private Mood mood;
+
 }

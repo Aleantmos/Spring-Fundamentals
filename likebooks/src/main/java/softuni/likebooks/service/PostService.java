@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import softuni.likebooks.model.dtos.AddPostDTO;
+import softuni.likebooks.model.dtos.PostDTO;
 import softuni.likebooks.model.entity.Mood;
 import softuni.likebooks.model.entity.Post;
 import softuni.likebooks.model.entity.User;
@@ -13,6 +14,7 @@ import softuni.likebooks.repository.PostRepository;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -48,18 +50,23 @@ public class PostService {
         postRepository.save(postToSave);
     }
 
-    public Set<Post> getPostsWithCreator(Long id) {
-        return postRepository.findByCreator_Id(id);
+    public Set<PostDTO> getPostsWithCreator(Long id) {
+        return postRepository.findByCreator_Id(id)
+                .stream()
+                .map(post -> modelMapper.map(post, PostDTO.class))
+                .collect(Collectors.toSet());
     }
 
     public void removePostById(Long id) {
         postRepository.deleteById(id);
     }
 
-    public Set<Post> getPostsWithCreatorNot(Long id) {
-        Set<Post> othersPosts = postRepository.findByCreator_IdNot(id);
+    public Set<PostDTO> getPostsWithCreatorNot(Long id) {
+        return postRepository.findByCreator_IdNot(id)
+                .stream()
+                .map(post -> modelMapper.map(post, PostDTO.class))
+                .collect(Collectors.toSet());
 
-        return othersPosts;
     }
 
     public void addLiker(Long id, Long loggedUserId) {
@@ -68,6 +75,7 @@ public class PostService {
 
         if (postToLike != null) {
             postToLike.getUsersLikes().add(loggedUser);
+            postRepository.save(postToLike);
         }
 
 

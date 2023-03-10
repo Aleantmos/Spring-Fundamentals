@@ -1,5 +1,6 @@
 package softuni.likebooks.web;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import softuni.likebooks.model.dtos.UserLoginDTO;
 import softuni.likebooks.model.dtos.UserRegisterDTO;
+import softuni.likebooks.model.helper.LoggedUser;
 import softuni.likebooks.service.UserService;
 
 @RequestMapping("/users")
@@ -19,10 +21,12 @@ import softuni.likebooks.service.UserService;
 public class UserController {
 
     private final UserService userService;
+    private final LoggedUser loggedUser;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, LoggedUser loggedUser) {
         this.userService = userService;
+        this.loggedUser = loggedUser;
     }
 
     @GetMapping("/register")
@@ -73,6 +77,12 @@ public class UserController {
         }
 
         return "redirect:/home";
+    }
+
+    @GetMapping("/logout")
+    public String getLogout(HttpSession httpSession) {
+        httpSession.invalidate();
+        return "redirect:/";
     }
     @ModelAttribute
     public UserRegisterDTO userRegisterDTO() {

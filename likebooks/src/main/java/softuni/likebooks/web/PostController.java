@@ -47,13 +47,17 @@ public class PostController {
 
 
     @GetMapping("/like-post/{id}")
-    public void likePost(@PathVariable Long id) {
+    public String likePost(@PathVariable Long id) {
         postService.addLiker(id, loggedUser.getId());
+
+        return "redirect:/home";
     }
 
     @GetMapping("/remove/{id}")
-    public void removePost(@PathVariable Long id) {
+    public String removePost(@PathVariable Long id) {
         postService.removePostById(id);
+
+        return "redirect:/home";
     }
     @ModelAttribute
     public AddPostDTO addPostDTO() {

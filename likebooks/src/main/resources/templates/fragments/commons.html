@@ -13,10 +13,12 @@
 <header>
     <nav class="navbar navbar-expand-lg bg-nav rounded">
         <a class="nav-link text-white active h5" href="/">LikeBook App</a>
-        <a class="nav-link text-white active h5" href="/posts/add-post">Add Post</a>
+        <a th:if="${@loggedUser.isLogged() == true}" class="nav-link text-white active h5" href="/posts/add-post">Add Post</a>
 
         <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
             <ul class="navbar-nav row">
+
+                <th:block th:if="${@loggedUser.isLogged() == false}">
                 <li class="nav-item col-md-4">
                     <a class="nav-link text-white active h5" href="/users/login">Login</a>
                 </li>
@@ -24,8 +26,9 @@
                 <li class="nav-item col-md-4">
                     <a class="nav-link text-white active h5" href="/users/register">Register</a>
                 </li>
+                </th:block>
 
-                <li class="nav-item col-md-4">
+                <li th:if="${@loggedUser.isLogged() == true}" class="nav-item col-md-4">
                     <a class="nav-link text-white active h5" href="/users/logout">Logout</a>
                 </li>
             </ul>
