@@ -29,7 +29,9 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime neededBefore;
 
-    @NotNull
     @ManyToOne
     private Category category;
+
+    @ManyToOne
+    private User owner;
 }

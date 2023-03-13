@@ -1,8 +1,6 @@
 package softuni.shoppinglist.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +14,7 @@ import softuni.shoppinglist.model.enums.CategoryEnum;
 @Table(name = "categories")
 public class Category extends BaseEntity {
 
-    @Column(unique = true)
+    @Enumerated(EnumType.STRING)
     private CategoryEnum name;
 
     @Column(nullable = false, columnDefinition = "Text")

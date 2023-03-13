@@ -1,5 +1,6 @@
 package softuni.shoppinglist.web;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -80,6 +81,12 @@ public class UserController {
         return "redirect:/";
     }
 
+    @GetMapping("/logout")
+    public String getLogout(HttpSession httpSession) {
+        httpSession.invalidate();
+
+        return "redirect:/";
+    }
     @ModelAttribute
     public UserLoginDTO userLoginDTO() {
         return new UserLoginDTO();
