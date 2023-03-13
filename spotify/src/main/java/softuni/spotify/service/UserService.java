@@ -41,7 +41,7 @@ public class UserService {
     }
 
     private boolean checkEmailUniqueness(String email) {
-        return userRepository.
+        return userRepository.findUserByEmail(email).isEmpty();
     }
 
     private boolean checkUsernameUniqueness(String username) {
